@@ -1,4 +1,5 @@
 import sys
+import os
 import requests
 
 def check_sql_injection(url):
