@@ -1,3 +1,7 @@
+import requests
+import urllib
+
+
 def check_sql_injection(url):
   # Inject a SQL statement into the headers
   headers = { "OR": "1=1" }
