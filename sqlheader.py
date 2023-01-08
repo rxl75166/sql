@@ -13,7 +13,11 @@ def check_sql_injection(url, payloads):
 
     # If the response is different from the normal response, it is potentially vulnerable to SQL injection
     if response != requests.get(url):
-      return True
+      # Try injecting a second payload to confirm the vulnerability
+      headers = { "OR": payload + "--" }
+      response = requests.get(url, headers=headers)
+      if response != requests.get(url):
+        return True
   return False
 
 # Read the list of payloads from a file
