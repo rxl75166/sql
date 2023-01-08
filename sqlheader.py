@@ -1,6 +1,5 @@
+import sys
 import requests
-import urllib
-
 
 def check_sql_injection(url):
   # Inject a SQL statement into the headers
@@ -15,8 +14,21 @@ def check_sql_injection(url):
   else:
     return False
 
-# Example usage
-if check_sql_injection("http://example.com/search"):
-  print("Vulnerable to SQL injection!")
+# Check if the argument is a file or a single URL
+if os.path.isfile(sys.argv[1]):
+  # Read the list of URLs from the file
+  with open(sys.argv[1], "r") as f:
+    url_list = f.read().splitlines()
+
+  # Test each URL for SQL injection vulnerabilities
+  for url in url_list:
+    if check_sql_injection(url):
+      print(f"{url} is vulnerable to SQL injection!")
+    else:
+      print(f"{url} is not vulnerable to SQL injection.")
 else:
-  print("Not vulnerable to SQL injection.")
+  # Test the single URL for SQL injection vulnerabilities
+  if check_sql_injection(sys.argv[1]):
+    print(f"{sys.argv[1]} is vulnerable to SQL injection!")
+  else:
+    print(f"{sys.argv[1]} is not vulnerable to SQL injection.")
